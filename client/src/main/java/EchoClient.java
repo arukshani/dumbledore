@@ -10,11 +10,6 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 
 import java.net.InetSocketAddress;
 
-/**
- * Listing 2.4 Main class for the client
- *
- * @author <a href="mailto:norman.maurer@gmail.com">Norman Maurer</a>
- */
 public class EchoClient {
     private final String host;
     private final int port;
@@ -25,21 +20,21 @@ public class EchoClient {
     }
 
     public void start()
-        throws Exception {
+            throws Exception {
         EventLoopGroup group = new NioEventLoopGroup();
         try {
             Bootstrap b = new Bootstrap();
             b.group(group)
-                .channel(NioSocketChannel.class)
-                .remoteAddress(new InetSocketAddress(host, port))
-                .handler(new ChannelInitializer<SocketChannel>() {
-                    @Override
-                    public void initChannel(SocketChannel ch)
-                        throws Exception {
-                        ch.pipeline().addLast(
-                             new EchoClientHandler());
-                    }
-                });
+                    .channel(NioSocketChannel.class)
+                    .remoteAddress(new InetSocketAddress(host, port))
+                    .handler(new ChannelInitializer<SocketChannel>() {
+                        @Override
+                        public void initChannel(SocketChannel ch)
+                                throws Exception {
+                            ch.pipeline().addLast(
+                                    new EchoClientHandler());
+                        }
+                    });
             ChannelFuture f = b.connect().sync();
             f.channel().closeFuture().sync();
         } finally {

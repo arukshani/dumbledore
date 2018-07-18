@@ -7,14 +7,9 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.util.CharsetUtil;
 
-/**
- * Listing 2.3 ChannelHandler for the client
- *
- * @author <a href="mailto:norman.maurer@gmail.com">Norman Maurer</a>
- */
 @Sharable
 public class EchoClientHandler
-    extends SimpleChannelInboundHandler<ByteBuf> {
+        extends SimpleChannelInboundHandler<ByteBuf> {
     @Override
     public void channelActive(ChannelHandlerContext ctx) {
         ctx.writeAndFlush(Unpooled.copiedBuffer("Netty rocks!" + System.currentTimeMillis(),
@@ -29,7 +24,7 @@ public class EchoClientHandler
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx,
-        Throwable cause) {
+                                Throwable cause) {
         cause.printStackTrace();
         ctx.close();
     }

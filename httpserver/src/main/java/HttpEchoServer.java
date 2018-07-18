@@ -11,11 +11,6 @@ import io.netty.handler.codec.http.HttpResponseEncoder;
 
 import java.net.InetSocketAddress;
 
-/**
- * Listing 2.2 EchoServer class
- *
- * @author <a href="mailto:norman.maurer@gmail.com">Norman Maurer</a>
- */
 public class HttpEchoServer {
     private final int port;
 
@@ -24,10 +19,10 @@ public class HttpEchoServer {
     }
 
     public static void main(String[] args)
-        throws Exception {
+            throws Exception {
         if (args.length != 1) {
             System.err.println("Usage: " + HttpEchoServer.class.getSimpleName() +
-                " <port>"
+                    " <port>"
             );
             return;
         }
@@ -43,17 +38,17 @@ public class HttpEchoServer {
         try {
             ServerBootstrap b = new ServerBootstrap();
             b.group(group)
-                .channel(NioServerSocketChannel.class)
-                .localAddress(new InetSocketAddress(port))
-                .childHandler(new ChannelInitializer<SocketChannel>() {
-                    @Override
-                    public void initChannel(SocketChannel ch) throws Exception {
-                        ch.pipeline().addLast("decoder", new HttpRequestDecoder()); //1st inbound handler
-                        ch.pipeline().addLast("encoder", new HttpResponseEncoder()); //1st outbound handler
-                        ch.pipeline().addLast(new ServerReaderHandler()); //2nd inbound handler
-                      //  ch.pipeline().addLast(new IdleStateHandler(0, 0, 5000));
-                    }
-                });
+                    .channel(NioServerSocketChannel.class)
+                    .localAddress(new InetSocketAddress(port))
+                    .childHandler(new ChannelInitializer<SocketChannel>() {
+                        @Override
+                        public void initChannel(SocketChannel ch) throws Exception {
+                            ch.pipeline().addLast("decoder", new HttpRequestDecoder()); //1st inbound handler
+                            ch.pipeline().addLast("encoder", new HttpResponseEncoder()); //1st outbound handler
+                            ch.pipeline().addLast(new ServerReaderHandler()); //2nd inbound handler
+                            //  ch.pipeline().addLast(new IdleStateHandler(0, 0, 5000));
+                        }
+                    });
 
             ChannelFuture f = b.bind().sync();
             f.addListener(new ChannelFutureListener() {

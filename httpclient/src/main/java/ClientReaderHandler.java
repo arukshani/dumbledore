@@ -9,11 +9,6 @@ import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponse;
 import io.netty.handler.codec.http.HttpVersion;
 
-/**
- * Listing 2.3 ChannelHandler for the client
- *
- * @author <a href="mailto:norman.maurer@gmail.com">Norman Maurer</a>
- */
 @Sharable
 public class ClientReaderHandler extends ChannelInboundHandlerAdapter {
     @Override
@@ -38,7 +33,7 @@ public class ClientReaderHandler extends ChannelInboundHandlerAdapter {
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
         System.out.println("server response received from client: " + ctx.channel().id());
         if (msg instanceof HttpResponse) {
-            HttpResponse receivedHeader = (HttpResponse)msg;
+            HttpResponse receivedHeader = (HttpResponse) msg;
             System.out.println("Status:" + receivedHeader.status());
         } else {
             System.out.println("Read body from response");

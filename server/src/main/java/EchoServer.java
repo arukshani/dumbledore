@@ -9,11 +9,6 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 
 import java.net.InetSocketAddress;
 
-/**
- * Listing 2.2 EchoServer class
- *
- * @author <a href="mailto:norman.maurer@gmail.com">Norman Maurer</a>
- */
 public class EchoServer {
     private final int port;
 
@@ -22,10 +17,10 @@ public class EchoServer {
     }
 
     public static void main(String[] args)
-        throws Exception {
+            throws Exception {
         if (args.length != 1) {
             System.err.println("Usage: " + EchoServer.class.getSimpleName() +
-                " <port>"
+                    " <port>"
             );
             return;
         }
@@ -38,14 +33,14 @@ public class EchoServer {
         try {
             ServerBootstrap b = new ServerBootstrap();
             b.group(group)
-                .channel(NioServerSocketChannel.class)
-                .localAddress(new InetSocketAddress(port))
-                .childHandler(new ChannelInitializer<SocketChannel>() {
-                    @Override
-                    public void initChannel(SocketChannel ch) throws Exception {
-                        ch.pipeline().addLast(new EchoServerHandler());
-                    }
-                });
+                    .channel(NioServerSocketChannel.class)
+                    .localAddress(new InetSocketAddress(port))
+                    .childHandler(new ChannelInitializer<SocketChannel>() {
+                        @Override
+                        public void initChannel(SocketChannel ch) throws Exception {
+                            ch.pipeline().addLast(new EchoServerHandler());
+                        }
+                    });
 
             ChannelFuture f = b.bind().sync();
             f.addListener(new ChannelFutureListener() {
