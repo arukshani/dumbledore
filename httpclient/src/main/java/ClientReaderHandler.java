@@ -34,7 +34,7 @@ public class ClientReaderHandler extends ChannelInboundHandlerAdapter {
         System.out.println("server response received from client: " + ctx.channel().id());
         if (msg instanceof HttpResponse) {
             HttpResponse receivedHeader = (HttpResponse) msg;
-            System.out.println("Status:" + receivedHeader.status());
+            System.out.println("Message id : " + receivedHeader.headers().get("message-id") + " Status:" + receivedHeader.status());
         } else {
             System.out.println("Read body from response");
         }

@@ -29,7 +29,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <mainClass>HttpEchoServer</mainClass>
+                    <mainClass>HttpServerBootstrap</mainClass>
                     <arguments>
                         <argument>${echo-server.port}</argument>
                     </arguments>

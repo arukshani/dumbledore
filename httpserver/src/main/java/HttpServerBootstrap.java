@@ -1,4 +1,3 @@
-import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelInitializer;
@@ -11,23 +10,23 @@ import io.netty.handler.codec.http.HttpResponseEncoder;
 
 import java.net.InetSocketAddress;
 
-public class HttpEchoServer {
+public class HttpServerBootstrap {
     private final int port;
 
-    public HttpEchoServer(int port) {
+    public HttpServerBootstrap(int port) {
         this.port = port;
     }
 
     public static void main(String[] args)
             throws Exception {
         if (args.length != 1) {
-            System.err.println("Usage: " + HttpEchoServer.class.getSimpleName() +
+            System.err.println("Usage: " + HttpServerBootstrap.class.getSimpleName() +
                     " <port>"
             );
             return;
         }
         int port = Integer.parseInt(args[0]);
-        new HttpEchoServer(port).start();
+        new HttpServerBootstrap(port).start();
     }
 
     public void start() throws Exception {
@@ -36,7 +35,7 @@ public class HttpEchoServer {
         //socket <--      <-- 1st outbound handler <-- 2nd outbound handler <-- execution starts
         EventLoopGroup group = new NioEventLoopGroup();
         try {
-            ServerBootstrap b = new ServerBootstrap();
+            io.netty.bootstrap.ServerBootstrap b = new io.netty.bootstrap.ServerBootstrap();
             b.group(group)
                     .channel(NioServerSocketChannel.class)
                     .localAddress(new InetSocketAddress(port))
@@ -56,7 +55,7 @@ public class HttpEchoServer {
                 public void operationComplete(ChannelFuture channelFuture)
                         throws Exception {
                     if (channelFuture.isSuccess()) {
-                        System.out.println(HttpEchoServer.class.getName() +
+                        System.out.println(HttpServerBootstrap.class.getName() +
                                 " started and listening for connections on " + channelFuture.channel().localAddress());
                     } else {
                         System.err.println("Bind attempt failed");

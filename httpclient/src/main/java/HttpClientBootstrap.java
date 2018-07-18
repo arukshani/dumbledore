@@ -10,11 +10,11 @@ import io.netty.handler.codec.http.HttpResponseDecoder;
 
 import java.net.InetSocketAddress;
 
-public class HttpEchoClient {
+public class HttpClientBootstrap {
     private final String host;
     private final int port;
 
-    public HttpEchoClient(String host, int port) {
+    public HttpClientBootstrap(String host, int port) {
         this.host = host;
         this.port = port;
     }
@@ -48,7 +48,7 @@ public class HttpEchoClient {
     public static void main(String[] args)
             throws Exception {
         if (args.length != 2) {
-            System.err.println("Usage: " + HttpEchoClient.class.getSimpleName() +
+            System.err.println("Usage: " + HttpClientBootstrap.class.getSimpleName() +
                     " <host> <port>"
             );
             return;
@@ -56,6 +56,6 @@ public class HttpEchoClient {
 
         final String host = args[0];
         final int port = Integer.parseInt(args[1]);
-        new HttpEchoClient(host, port).start();
+        new HttpClientBootstrap(host, port).start();
     }
 }
