@@ -8,10 +8,8 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.http.HttpRequestDecoder;
 import io.netty.handler.codec.http.HttpResponseEncoder;
-import io.netty.handler.timeout.IdleStateHandler;
 
 import java.net.InetSocketAddress;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Listing 2.2 EchoServer class
@@ -38,6 +36,9 @@ public class HttpEchoServer {
     }
 
     public void start() throws Exception {
+        //socket  <--> head -------------------------- tail
+        //socket --> execution starts --> 1st inbound handler --> 2nd inbound handler --->
+        //socket <--      <-- 1st outbound handler <-- 2nd outbound handler <-- execution starts
         EventLoopGroup group = new NioEventLoopGroup();
         try {
             ServerBootstrap b = new ServerBootstrap();
@@ -47,10 +48,10 @@ public class HttpEchoServer {
                 .childHandler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     public void initChannel(SocketChannel ch) throws Exception {
-                        ch.pipeline().addLast("decoder", new HttpRequestDecoder());
-                        ch.pipeline().addLast("encoder", new HttpResponseEncoder());
-                        ch.pipeline().addLast(new EchoServerHandler());
-                        ch.pipeline().addLast(new IdleStateHandler(0, 0, 5000));
+                        ch.pipeline().addLast("decoder", new HttpRequestDecoder()); //1st inbound handler
+                        ch.pipeline().addLast("encoder", new HttpResponseEncoder()); //1st outbound handler
+                        ch.pipeline().addLast(new ServerReaderHandler()); //2nd inbound handler
+                      //  ch.pipeline().addLast(new IdleStateHandler(0, 0, 5000));
                     }
                 });
 

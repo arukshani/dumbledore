@@ -41,11 +41,11 @@ public class HttpEchoClient {
                         throws Exception {
                         ch.pipeline().addLast("decoder", new HttpResponseDecoder());
                         ch.pipeline().addLast("encoder", new HttpRequestEncoder());
-                        ch.pipeline().addLast(new EchoClientHandler());
+                        ch.pipeline().addLast(new ClientReaderHandler());
                     }
                 });
-            b.option(ChannelOption.SO_KEEPALIVE, true)
-                    .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 5000);
+           /* b.option(ChannelOption.SO_KEEPALIVE, true)
+                    .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 5000);*/
             ChannelFuture f = b.connect().sync();
             f.channel().closeFuture().sync();
         } finally {

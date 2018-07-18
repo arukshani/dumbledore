@@ -14,8 +14,9 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="client" target="1.7" />
+      <module name="dumbledore" target="1.5" />
       <module name="httpclient" target="1.7" />
-      <module name="httpserver" target="1.7" />
+      <module name="httpserver" target="1.8" />
       <module name="server" target="1.7" />
       <module name="testpipeline" target="1.5" />
     </bytecodeTargetLevel>
