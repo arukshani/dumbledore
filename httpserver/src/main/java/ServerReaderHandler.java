@@ -60,7 +60,6 @@ public class ServerReaderHandler extends ChannelInboundHandlerAdapter {
                             }
                         }, 5000, TimeUnit.MILLISECONDS);
             }
-
             //TODO:Need to close the channel once both the responses have been sent out
         }
     }
