@@ -38,9 +38,13 @@ public class ServerReaderHandler extends ChannelInboundHandlerAdapter {
                                 final DefaultFullHttpResponse httpResponse = new DefaultFullHttpResponse(HTTP_1_1, OK, content);
                                 httpResponse.headers().add(CONTENT_LENGTH, content.readableBytes());
                                 httpResponse.headers().add("message-id", 1);
+                                HttpPipelinedResponse pipelinedResponse = new HttpPipelinedResponse(httpResponse, 1);
                                 System.out.println("Now it is 10000ms later " + 1);
                                 System.out.println("Starting to write server response : " + 1);
-                                ctx.writeAndFlush(httpResponse);
+                                //To make this readable from the client side, when the pipelining handler is not there, make sure to write
+                                //netty HttpResponse instead of the custom response
+                                ctx.writeAndFlush(pipelinedResponse);
+                                //ctx.writeAndFlush(httpResponse);
                             }
                         }, 10000, TimeUnit.MILLISECONDS);
             }
@@ -54,9 +58,13 @@ public class ServerReaderHandler extends ChannelInboundHandlerAdapter {
                                 final DefaultFullHttpResponse httpResponse = new DefaultFullHttpResponse(HTTP_1_1, OK, content);
                                 httpResponse.headers().add(CONTENT_LENGTH, content.readableBytes());
                                 httpResponse.headers().add("message-id", 2);
+                                HttpPipelinedResponse pipelinedResponse = new HttpPipelinedResponse(httpResponse, 2);
                                 System.out.println("Now it is 5000ms later " + 2);
                                 System.out.println("Starting to write server response : " + 2);
-                                ctx.writeAndFlush(httpResponse);
+                                //To make this readable from the client side, when the pipelining handler is not there, make sure to write
+                                //netty HttpResponse instead of the custom response
+                                ctx.writeAndFlush(pipelinedResponse);
+                                //ctx.writeAndFlush(httpResponse);
                             }
                         }, 5000, TimeUnit.MILLISECONDS);
             }
@@ -68,7 +76,7 @@ public class ServerReaderHandler extends ChannelInboundHandlerAdapter {
     public void channelReadComplete(ChannelHandlerContext ctx)
             throws Exception {
         System.out.println("Server finished reading request from client " + ctx.channel().id());
-       // ctx.close();
+        // ctx.close();
     }
 
     @Override

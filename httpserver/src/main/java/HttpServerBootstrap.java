@@ -42,9 +42,9 @@ public class HttpServerBootstrap {
                     .childHandler(new ChannelInitializer<SocketChannel>() {
                         @Override
                         public void initChannel(SocketChannel ch) throws Exception {
-                            ch.pipeline().addLast("decoder", new HttpRequestDecoder()); //1st inbound handler
                             ch.pipeline().addLast("encoder", new HttpResponseEncoder()); //1st outbound handler
-                            ch.pipeline().addLast(new HttpPipeliningHandler()); //2nd outbound handler
+                            ch.pipeline().addLast("decoder", new HttpRequestDecoder()); //1st inbound handler
+                            ch.pipeline().addLast(new HttpPipeliningHandler(2)); //2nd outbound handler
                             ch.pipeline().addLast(new ServerReaderHandler()); //2nd inbound handler
                             //  ch.pipeline().addLast(new IdleStateHandler(0, 0, 5000));
                         }
