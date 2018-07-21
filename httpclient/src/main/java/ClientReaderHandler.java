@@ -18,7 +18,7 @@ public class ClientReaderHandler extends ChannelInboundHandlerAdapter {
         request1.headers().set(HttpHeaderNames.HOST, "localhost");
         request1.headers().set(HttpHeaderNames.CONNECTION, HttpHeaderValues.KEEP_ALIVE);
         request1.headers().set(HttpHeaderNames.ACCEPT_ENCODING, HttpHeaderValues.GZIP);
-        request1.headers().set("message-id", "one");
+        request1.headers().set("message-id", "request-one");
 
         ctx.writeAndFlush(request1);
 
@@ -26,7 +26,7 @@ public class ClientReaderHandler extends ChannelInboundHandlerAdapter {
         request2.headers().set(HttpHeaderNames.HOST, "localhost");
         request2.headers().set(HttpHeaderNames.CONNECTION, HttpHeaderValues.KEEP_ALIVE);
         request2.headers().set(HttpHeaderNames.ACCEPT_ENCODING, HttpHeaderValues.GZIP);
-        request2.headers().set("message-id", "two");
+        request2.headers().set("message-id", "request-two");
 
         ctx.writeAndFlush(request2);
     }
