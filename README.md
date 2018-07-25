@@ -1,3 +1,3 @@
 # dumbledore
 
-dumbledore/httpserver/ >> this server supports http pipelining
+dumbledore/httpclient/ >> send pipeline requests ~ruk~
