@@ -29,6 +29,14 @@ public class ClientReaderHandler extends ChannelInboundHandlerAdapter {
         request2.headers().set("message-id", "request-two");
 
         ctx.writeAndFlush(request2);
+
+        HttpRequest request3 = new DefaultFullHttpRequest(HttpVersion.HTTP_1_1, HttpMethod.GET, "/test/outOfOrder");
+        request3.headers().set(HttpHeaderNames.HOST, "localhost");
+        request3.headers().set(HttpHeaderNames.CONNECTION, HttpHeaderValues.KEEP_ALIVE);
+        request3.headers().set(HttpHeaderNames.ACCEPT_ENCODING, HttpHeaderValues.GZIP);
+        request3.headers().set("message-id", "request-three");
+
+        ctx.writeAndFlush(request3);
     }
 
     @Override
@@ -36,6 +44,7 @@ public class ClientReaderHandler extends ChannelInboundHandlerAdapter {
         System.out.println("server response received from client: " + ctx.channel().id());
         if (msg instanceof HttpResponse) {
             HttpResponse receivedHeader = (HttpResponse) msg;
+            System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
             System.out.println("Message id : " + receivedHeader.headers().get("message-id") + " Status:" + receivedHeader.status());
             System.out.println("Content length : " + receivedHeader.headers().get(HttpHeaderNames.CONTENT_LENGTH));
             System.out.println("Transfer encoding : " + receivedHeader.headers().get(HttpHeaderNames.TRANSFER_ENCODING));
