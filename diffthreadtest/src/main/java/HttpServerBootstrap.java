@@ -50,7 +50,7 @@ public class HttpServerBootstrap {
                             ch.pipeline().addLast("decoder", new HttpRequestDecoder()); //1st inbound handler
                             ch.pipeline().addLast(new FirstOutHandler()); //2nd outbound handler
                             ch.pipeline().addLast(testGroup, new SecondOutHandler()); //3rd outbound handler
-                            ch.pipeline().addLast(new ThirdOutHandler()); //4rd outbound handler
+                            ch.pipeline().addLast(new ThirdOutHandler()); //4th outbound handler
                             ch.pipeline().addLast(new ServerReaderHandler()); //2nd inbound handler
                             //  ch.pipeline().addLast(new IdleStateHandler(0, 0, 5000));
                         }
