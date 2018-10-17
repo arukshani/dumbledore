@@ -2,6 +2,7 @@ import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.codec.http.DefaultFullHttpRequest;
+import io.netty.handler.codec.http.HttpContent;
 import io.netty.handler.codec.http.HttpHeaderNames;
 import io.netty.handler.codec.http.HttpHeaderValues;
 import io.netty.handler.codec.http.HttpMethod;
@@ -37,6 +38,14 @@ public class ClientReaderHandler extends ChannelInboundHandlerAdapter {
         request3.headers().set("message-id", "request-three");
 
         ctx.writeAndFlush(request3);
+
+        HttpRequest request4 = new DefaultFullHttpRequest(HttpVersion.HTTP_1_1, HttpMethod.GET, "/test/outOfOrder");
+        request4.headers().set(HttpHeaderNames.HOST, "localhost");
+        request4.headers().set(HttpHeaderNames.CONNECTION, HttpHeaderValues.KEEP_ALIVE);
+        request4.headers().set(HttpHeaderNames.ACCEPT_ENCODING, HttpHeaderValues.GZIP);
+        request4.headers().set("message-id", "request-four");
+
+        ctx.writeAndFlush(request4);
     }
 
     @Override
@@ -48,8 +57,9 @@ public class ClientReaderHandler extends ChannelInboundHandlerAdapter {
             System.out.println("Message id : " + receivedHeader.headers().get("message-id") + " Status:" + receivedHeader.status());
             System.out.println("Content length : " + receivedHeader.headers().get(HttpHeaderNames.CONTENT_LENGTH));
             System.out.println("Transfer encoding : " + receivedHeader.headers().get(HttpHeaderNames.TRANSFER_ENCODING));
-        } else {
+        } else if (msg instanceof HttpContent) {
             System.out.println("Read body from response");
+            ((HttpContent) msg).release();
         }
     }
 

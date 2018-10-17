@@ -14,6 +14,7 @@
         <module>httpclient</module>
         <module>httpserver</module>
         <module>plain-nio-server</module>
+        <module>diffthreadtest</module>
     </modules>
 
     <dependencies>
